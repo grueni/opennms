@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 import org.jrobin.core.RrdException;
 import org.jrobin.core.Util;
@@ -49,7 +49,7 @@ class RrdXportCmd extends RrdToolCmd implements RrdGraphConstants {
     }
 
     @Override
-    JRDataSource execute() throws RrdException, IOException {
+    JRRewindableDataSource execute() throws RrdException, IOException {
         String startStr = getOptionValue("s", "start", DEFAULT_START);
         String endStr = getOptionValue("e", "end", DEFAULT_END);
         long[] span = Util.getTimestamps(startStr, endStr);
@@ -79,12 +79,12 @@ class RrdXportCmd extends RrdToolCmd implements RrdGraphConstants {
                 throw new RrdException("Invalid XPORT syntax: " + words[i]);
             }
         }
-        JRDataSource result = xports.size() == 0 ? null : xport();
+        JRRewindableDataSource result = xports.size() == 0 ? null : xport();
         println(xports.size() == 0 ? "No XPORT statement found, nothing done" : result.toString());
         return result;
     }
 
-    private JRDataSource xport() throws IOException, RrdException {
+    private JRRewindableDataSource xport() throws IOException, RrdException {
         dproc.processData();
         long[] timestamps = dproc.getTimestamps();
         

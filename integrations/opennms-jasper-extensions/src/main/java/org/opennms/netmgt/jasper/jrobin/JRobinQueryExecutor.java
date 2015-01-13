@@ -31,9 +31,9 @@ package org.opennms.netmgt.jasper.jrobin;
 import java.util.Date;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRRewindableDataSource;
 import net.sf.jasperreports.engine.JRValueParameter;
 import net.sf.jasperreports.engine.query.JRAbstractQueryExecuter;
 
@@ -55,7 +55,7 @@ public class JRobinQueryExecutor extends JRAbstractQueryExecuter {
     }
 
     @Override
-    public JRDataSource createDatasource() throws JRException {
+    public JRRewindableDataSource createDatasource() throws JRException {
         try {
             return new RrdXportCmd().executeCommand(getQueryString());
         } catch (Throwable e) {
