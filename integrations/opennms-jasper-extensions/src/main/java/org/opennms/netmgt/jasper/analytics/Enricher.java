@@ -28,6 +28,7 @@
 
 package org.opennms.netmgt.jasper.analytics;
 
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 
 /**
@@ -37,5 +38,5 @@ import net.sf.jasperreports.engine.JRRewindableDataSource;
  * @author jwhite
  */
 public interface Enricher {
-    public JRRewindableDataSource enrich(JRRewindableDataSource ds);
+    public JRRewindableDataSource enrich(JRRewindableDataSource ds) throws JRException;
 }
