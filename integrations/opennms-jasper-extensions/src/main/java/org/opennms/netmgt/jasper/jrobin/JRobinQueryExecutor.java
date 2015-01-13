@@ -31,6 +31,8 @@ package org.opennms.netmgt.jasper.jrobin;
 import java.util.Date;
 import java.util.Map;
 
+import org.opennms.netmgt.jasper.analytics.RrdDataSourceEnricher;
+
 import net.sf.jasperreports.engine.JRDataset;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRRewindableDataSource;
@@ -56,9 +58,11 @@ public class JRobinQueryExecutor extends JRAbstractQueryExecuter {
 
     @Override
     public JRRewindableDataSource createDatasource() throws JRException {
+        RrdDataSourceEnricher dse = new RrdDataSourceEnricher(getQueryString());
         try {
-            return new RrdXportCmd().executeCommand(getQueryString());
-        } catch (Throwable e) {
+            JRRewindableDataSource ds = new RrdXportCmd().executeCommand(dse.getRrdQueryString());
+            return dse.enrich(ds);
+        } catch (Exception e) {
             throw new JRException("Error creating JRobinDataSource with command: " + getQueryString(), e);
         }
     }
@@ -73,6 +77,4 @@ public class JRobinQueryExecutor extends JRAbstractQueryExecuter {
 
         return String.valueOf(parameterVal);
     }
-
-
 }

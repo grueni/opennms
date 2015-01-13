@@ -32,6 +32,7 @@ import java.util.Map;
 
 import net.sf.jasperreports.engine.JRValueParameter;
 
+import org.opennms.netmgt.jasper.analytics.RrdDataSourceEnricher;
 import org.opennms.netmgt.jasper.jrobin.JRobinQueryExecutor;
 
 import net.sf.jasperreports.engine.JRDataset;
@@ -46,10 +47,12 @@ public class RrdtoolQueryExecutor extends JRobinQueryExecutor {
 
 	@Override
 	public JRRewindableDataSource createDatasource() throws JRException {
-		try {
-			return new RrdtoolXportCmd().executeCommand(getQueryString());
-		} catch (Exception e) {
-			throw new JRException("Error creating RrdtoolDataSource", e);
-		}
+        RrdDataSourceEnricher dse = new RrdDataSourceEnricher(getQueryString());
+        try {
+            JRRewindableDataSource ds = new RrdtoolXportCmd().executeCommand(dse.getRrdQueryString());
+            return dse.enrich(ds);
+        } catch (Exception e) {
+            throw new JRException("Error creating RrdtoolDataSource with command: " + getQueryString(), e);
+        }
 	}
 }
