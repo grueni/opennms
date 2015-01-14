@@ -31,11 +31,23 @@ package org.opennms.netmgt.jasper.analytics;
 import net.sf.jasperreports.engine.JRException;
 
 /**
- * Used to perform a particular type of enrichment on the data source.
+ * Used to instantiate Enrichers from the corresponding command
+ * in the query string.
  *
  * @see {@link org.opennms.netmgt.jasper.analytics.RrdDataSourceEnricher}
  * @author jwhite
  */
-public interface AnalyticsModule {
+public interface EnricherFactory {
+    /**
+     * Retrieves the appropriate Enricher for the given command.
+     *
+     * @param cmd
+     *   a command parsed from the query string
+     * @return
+     *   null if this factory doesn't support the command in question
+     * @throws JRException
+     *   when the command is supported and there is a problem with one
+     *   or more arguments
+     */
     public Enricher getEnricher(AnalyticsCommand cmd) throws JRException;
 }

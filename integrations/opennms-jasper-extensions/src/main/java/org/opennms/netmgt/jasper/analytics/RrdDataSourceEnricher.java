@@ -72,8 +72,8 @@ public class RrdDataSourceEnricher {
             AnalyticsCommand.CMD_IN_RRD_QUERY_STRING + 
             ":([\\w]+)=([\\w]+):([^\\s]+)");
     private final List<AnalyticsCommand> m_analyticsCommands = Lists.newArrayList();
-    private static final ServiceLoader<AnalyticsModule> m_analyticsModules =
-            ServiceLoader.load(AnalyticsModule.class);
+    private static final ServiceLoader<EnricherFactory> m_analyticsModules =
+            ServiceLoader.load(EnricherFactory.class);
 
     public RrdDataSourceEnricher(String queryString) {
         m_originalQueryString = queryString;
@@ -131,7 +131,7 @@ public class RrdDataSourceEnricher {
      */
     private Enricher getEnricher(AnalyticsCommand command) throws JRException {
         Enricher enricher = null;
-        for (AnalyticsModule module : m_analyticsModules) {
+        for (EnricherFactory module : m_analyticsModules) {
             enricher = module.getEnricher(command);
             if (enricher != null) {
                 return enricher;

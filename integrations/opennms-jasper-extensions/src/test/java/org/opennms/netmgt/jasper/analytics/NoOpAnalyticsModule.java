@@ -30,7 +30,7 @@ package org.opennms.netmgt.jasper.analytics;
 
 import net.sf.jasperreports.engine.JRRewindableDataSource;
 
-public class NoOpAnalyticsModule implements AnalyticsModule {
+public class NoOpAnalyticsModule implements EnricherFactory {
     @Override
     public Enricher getEnricher(AnalyticsCommand cmd) {
         if ("NoOp".equalsIgnoreCase(cmd.getModule())) {
