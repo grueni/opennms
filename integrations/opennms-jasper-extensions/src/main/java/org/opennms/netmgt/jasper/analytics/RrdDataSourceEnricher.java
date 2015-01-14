@@ -127,8 +127,9 @@ public class RrdDataSourceEnricher {
      *
      * @return
      *   null if no suitable Enricher was found
+     * @throws JRException
      */
-    private Enricher getEnricher(AnalyticsCommand command) {
+    private Enricher getEnricher(AnalyticsCommand command) throws JRException {
         Enricher enricher = null;
         for (AnalyticsModule module : m_analyticsModules) {
             enricher = module.getEnricher(command);

@@ -28,6 +28,8 @@
 
 package org.opennms.netmgt.jasper.analytics;
 
+import net.sf.jasperreports.engine.JRException;
+
 /**
  * Used to perform a particular type of enrichment on the data source.
  *
@@ -35,5 +37,5 @@ package org.opennms.netmgt.jasper.analytics;
  * @author jwhite
  */
 public interface AnalyticsModule {
-    public Enricher getEnricher(AnalyticsCommand cmd); 
+    public Enricher getEnricher(AnalyticsCommand cmd) throws JRException;
 }
